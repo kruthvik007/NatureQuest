@@ -157,7 +157,7 @@ def calculate_ndcg(recommendations, ground_truth, k):
         return dcg / idcg
 
 # Example usage
-ground_truth = ["Houston", "Las Vegas", "Miami"]  # Example ground truth
+ground_truth = ground_truth = ["Santa Monica Pier", "San Diego Zoo"] # Example ground truth
 
 
 # MAP
@@ -172,14 +172,3 @@ thompson_ndcg = calculate_ndcg(thompson_recommendations, ground_truth, 5)
 cf_ndcg = calculate_ndcg(cf_recommendations, ground_truth, 5)
 print("Thompson Sampling NDCG:", thompson_ndcg)
 print("MultiFactor CF NDCG:", cf_ndcg)
-
-
-
-
-
-
-
-
-
-
-
