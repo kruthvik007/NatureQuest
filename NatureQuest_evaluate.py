@@ -111,36 +111,19 @@ def recommend_places_with_details(num_recommendations, user_age, user_budget, us
     else:
         return []
 
-# Example usage
-user_age = 25
-user_budget = 1000
-user_duration = 5
-user_state_preference = "california"
-
-thompson_recommendations = thompson_sampling_with_details(5, user_age, user_budget, user_duration, user_state_preference)
-print("Thompson Sampling Recommendations:")
-for recommendation in thompson_recommendations:
-    print(recommendation)
-
-cf_recommendations = recommend_places_with_details(5, user_age, user_budget, user_duration, user_state_preference)
-print("MultiFactor CF Recommendations:")
-for recommendation in cf_recommendations:
-    print(recommendation)
-
-
 def calculate_map(recommendations, ground_truth):
     average_precision = 0
     num_relevant_recommendations = 0
+    cumulative_precision = 0
     for i, recommendation in enumerate(recommendations):
         if recommendation["Location"] in ground_truth:
             num_relevant_recommendations += 1
             precision_at_i = num_relevant_recommendations / (i + 1)
-            average_precision += precision_at_i
+            cumulative_precision += precision_at_i
     if num_relevant_recommendations == 0:
         return 0
     else:
-        return average_precision / num_relevant_recommendations
-
+        return cumulative_precision / num_relevant_recommendations
 
 def calculate_ndcg(recommendations, ground_truth, k):
     dcg = 0
@@ -157,15 +140,28 @@ def calculate_ndcg(recommendations, ground_truth, k):
         return dcg / idcg
 
 # Example usage
-ground_truth = ground_truth = ["Santa Monica Pier", "San Diego Zoo"] # Example ground truth
+user_age = 25
+user_budget = 1000
+user_duration = 5
+user_state_preference = "california"
 
+thompson_recommendations = thompson_sampling_with_details(5, user_age, user_budget, user_duration, user_state_preference)
+print("Thompson Sampling Recommendations:")
+for recommendation in thompson_recommendations:
+    print(recommendation)
+
+cf_recommendations = recommend_places_with_details(5, user_age, user_budget, user_duration, user_state_preference)
+print("MultiFactor CF Recommendations:")
+for recommendation in cf_recommendations:
+    print(recommendation)
+
+ground_truth = ["Miami Beach","Golden Gate Bridge","Alcatraz Island","Hollywood"]  # Example ground truth
 
 # MAP
 thompson_map = calculate_map(thompson_recommendations, ground_truth)
 cf_map = calculate_map(cf_recommendations, ground_truth)
 print("Thompson Sampling MAP:", thompson_map)
 print("MultiFactor CF MAP:", cf_map)
-
 
 # NDCG
 thompson_ndcg = calculate_ndcg(thompson_recommendations, ground_truth, 5)
