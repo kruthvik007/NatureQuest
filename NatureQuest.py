@@ -212,6 +212,8 @@ root.title("NatureQuest Recommendation System")
 
 # Full screen
 root.attributes('-fullscreen', True)
+# Set background color to light green
+root.configure(background="#d0f0c0")
 
 # Style
 style = ttk.Style()
@@ -220,42 +222,42 @@ style.configure("Custom.TLabel", font=("Helvetica", 14))
 style.configure("TButton", font=("Helvetica", 14))
 
 # Title
-title_label = ttk.Label(root, text="NatureQuest", style="Custom.TLabel", font=("Helvetica", 27, "bold"))
+title_label = ttk.Label(root, text="NatureQuest", style="Custom.TLabel", font=("Helvetica", 27, "bold"), background="#d0f0c0")
 title_label.grid(row=0, column=0, columnspan=4, padx=20, pady=5)
 
 # Sentence below the title
-subtitle_label = ttk.Label(root, text="Enter your details below if you are looking for a new adventure.", font=("Helvetica", 14))
+subtitle_label = ttk.Label(root, text="Enter your details below if you are looking for a new adventure.", font=("Helvetica", 14), background="#d0f0c0")
 subtitle_label.grid(row=1, column=0, columnspan=4, padx=30, pady=5, sticky="ew")
 
 # Labels and Entry fields
-labels_entry_frame = tk.Frame(root)
+labels_entry_frame = tk.Frame(root, background="#d0f0c0")
 labels_entry_frame.grid(row=2, column=0, columnspan=4, padx=20, pady=5, sticky="w")
 
-age_label = ttk.Label(labels_entry_frame, text="Enter your age:", style="Custom.TLabel")
+age_label = ttk.Label(labels_entry_frame, text="Enter your age:", style="Custom.TLabel", background="#d0f0c0")
 age_label.grid(row=0, column=0, padx=10, pady=5, sticky="w")
 age_entry = ttk.Entry(labels_entry_frame, font=("Helvetica", 14))
 age_entry.grid(row=0, column=1, padx=10, pady=5, sticky="w")
 age_var = tk.DoubleVar()
-age_slider = Scale(labels_entry_frame, from_=0, to=80, orient=tk.HORIZONTAL, variable=age_var, font=("Helvetica", 12), length=300, command=update_age_entry)
+age_slider = Scale(labels_entry_frame, from_=0, to=80, orient=tk.HORIZONTAL, variable=age_var, font=("Helvetica", 12), background="#d0f0c0", length=300, command=update_age_entry)
 age_slider.grid(row=0, column=2, padx=10, pady=5, sticky="w")
 
-budget_label = ttk.Label(labels_entry_frame, text="Enter your budget:", style="Custom.TLabel")
+budget_label = ttk.Label(labels_entry_frame, text="Enter your budget:", style="Custom.TLabel", background="#d0f0c0")
 budget_label.grid(row=1, column=0, padx=10, pady=5, sticky="w")
 budget_entry = ttk.Entry(labels_entry_frame, font=("Helvetica", 14))
 budget_entry.grid(row=1, column=1, padx=10, pady=5, sticky="w")
 budget_var = tk.DoubleVar()
-budget_slider = Scale(labels_entry_frame, from_=0, to=5000, orient=tk.HORIZONTAL, variable=budget_var, font=("Helvetica", 12), length=300, command=update_budget_entry)
+budget_slider = Scale(labels_entry_frame, from_=0, to=5000, orient=tk.HORIZONTAL, variable=budget_var, font=("Helvetica", 12), background="#d0f0c0", length=300, command=update_budget_entry)
 budget_slider.grid(row=1, column=2, padx=10, pady=5, sticky="w")
 
-duration_label = ttk.Label(labels_entry_frame, text="Enter desired duration (in days):", style="Custom.TLabel")
+duration_label = ttk.Label(labels_entry_frame, text="Enter desired duration (in days):", style="Custom.TLabel", background="#d0f0c0")
 duration_label.grid(row=2, column=0, padx=10, pady=5, sticky="w")
 duration_entry = ttk.Entry(labels_entry_frame, font=("Helvetica", 14))
 duration_entry.grid(row=2, column=1, padx=10, pady=5, sticky="w")
 duration_var = tk.IntVar()
-duration_slider = Scale(labels_entry_frame, from_=0, to=30, orient=tk.HORIZONTAL, variable=duration_var, font=("Helvetica", 12), length=300, command=update_duration_entry)
+duration_slider = Scale(labels_entry_frame, from_=0, to=30, orient=tk.HORIZONTAL, variable=duration_var, font=("Helvetica", 12), background="#d0f0c0", length=300, command=update_duration_entry)
 duration_slider.grid(row=2, column=2, padx=10, pady=5, sticky="w")
 
-state_label = ttk.Label(labels_entry_frame, text="Enter your preferred state:", style="Custom.TLabel")
+state_label = ttk.Label(labels_entry_frame, text="Enter your preferred state:", style="Custom.TLabel", background="#d0f0c0")
 state_label.grid(row=3, column=0, padx=10, pady=5, sticky="w")
 state_entry = ttk.Entry(labels_entry_frame, font=("Helvetica", 14))
 state_entry.grid(row=3, column=1, padx=10, pady=5, sticky="w")
@@ -266,7 +268,7 @@ budget_entry.bind("<KeyRelease>", update_budget_slider)
 duration_entry.bind("<KeyRelease>", update_duration_slider)
 
 # Buttons
-buttons_frame = tk.Frame(root)
+buttons_frame = tk.Frame(root, background="#d0f0c0")
 buttons_frame.grid(row=3, column=0, columnspan=4, pady=5)
 
 thompson_top3_button = ttk.Button(buttons_frame, text="Thompson Top 3", command=lambda: thompson_sampling(3))
@@ -282,7 +284,7 @@ complex_top5_button = ttk.Button(buttons_frame, text="MultiFactor CF Top 5", com
 complex_top5_button.grid(row=0, column=3, padx=10)
 
 # Clear and Close Buttons
-clear_close_frame = tk.Frame(root)
+clear_close_frame = tk.Frame(root, background="#d0f0c0")
 clear_close_frame.grid(row=4, column=0, columnspan=4, pady=5)
 
 clear_button = ttk.Button(clear_close_frame, text="Clear", command=clear)
@@ -292,7 +294,7 @@ close_button = ttk.Button(clear_close_frame, text="Close", command=close)
 close_button.grid(row=0, column=1, padx=10)
 
 # Result Text
-result_label = tk.Label(root, text="", font=("Helvetica", 14))
+result_label = tk.Label(root, text="", font=("Helvetica", 14), background="#d0f0c0")
 result_label.grid(row=5, column=0, columnspan=4, padx=10, pady=5)
 
 # Configure grid weights
@@ -300,4 +302,3 @@ root.grid_columnconfigure(0, weight=1)
 root.grid_rowconfigure(5, weight=1)
 
 root.mainloop()
-
