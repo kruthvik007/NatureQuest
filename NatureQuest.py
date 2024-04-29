@@ -184,7 +184,7 @@ def recommend_places(num_recommendations):
         # Display recommendations
         result_text = "Top {} Places based on Multifactor CF Algorithm:\n\n".format(num_recommendations)
         for i, option in enumerate(sorted_data.itertuples(), 1):
-            result_text += f"{i}. Location: {option[2]}, State: {option[3]}, Activity: {option[5]}, Duration: {option[6]}, Budget: {option[7]} Dollars, Rating: {option[8]}\n\n"
+            result_text += f"{i}. Location: {option[4]}, State: {option[2]}, Activity: {option[5]}, Duration: {option[6]}, Budget: {option[7]} Dollars, Rating: {option[8]}\n\n"
 
         result_label.config(text=result_text)
     else:
