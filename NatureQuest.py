@@ -1,8 +1,7 @@
 import pandas as pd
 import numpy as np
 import tkinter as tk
-from tkinter import ttk, messagebox
-from tkinter import Scale
+from tkinter import ttk, messagebox, scrolledtext
 
 # Read data from Excel file
 data = pd.read_csv("NatureQuestData.csv")
@@ -118,9 +117,12 @@ def thompson_sampling(num_options):
             option = filtered_data.iloc[sorted_arms[i]]
             options_message += "{}. Location: {}, State: {}, Activity: {}, Duration: {}, Budget: {} Dollars, Rating: {}\n\n".format(i+1, option["Location"], option["State"], option["Activity"], option["Duration"], option["Budget"], option["Rating"])
 
-        result_label.config(text=options_message)
+        result_text.delete(1.0, tk.END)  # Clear previous content
+        result_text.insert(tk.END, options_message)
+        insert_centered_text(result_text)
 
 def recommend_places(num_recommendations):
+    print("Inside recommend_places function")  # Debug message
     # Get user input for age, budget, duration, and state preference
     user_age_group = None
     user_budget = np.inf
@@ -156,8 +158,7 @@ def recommend_places(num_recommendations):
     if user_state_preference:
         filtered_data = filtered_data[filtered_data["State"].str.lower() == user_state_preference]
 
-    print("Filtered Data:")
-    print(filtered_data)
+    print("Filtered Data:", filtered_data)  # Debug message
 
     # Complex algorithm: Prioritize based on rating, duration, and budget
     if not filtered_data.empty:
@@ -175,23 +176,20 @@ def recommend_places(num_recommendations):
                                   ((max_duration - filtered_data["Duration"]) / max_duration) * duration_weight + \
                                   ((max_budget - filtered_data["Budget"]) / max_budget) * budget_weight
 
-        print("Filtered Data with Scores:")
-        print(filtered_data)
+        print("Filtered Data with Scores:", filtered_data)  # Debug message
 
         # Sort by score
         sorted_data = filtered_data.sort_values(by="Score", ascending=False).head(num_recommendations)
 
         # Display recommendations
-        result_text = "Top {} Places based on Multifactor CF Algorithm:\n\n".format(num_recommendations)
+        result_text.delete(1.0, tk.END)  # Clear previous content
+        result_text.insert(tk.END, "Top {} Places based on Multifactor CF Algorithm:\n\n".format(num_recommendations))
         for i, option in enumerate(sorted_data.itertuples(), 1):
-            result_text += f"{i}. Location: {option[4]}, State: {option[2]}, Activity: {option[5]}, Duration: {option[6]}, Budget: {option[7]} Dollars, Rating: {option[8]}\n\n"
-
-        result_label.config(text=result_text)
+            result_text.insert(tk.END, f"{i}. Location: {option[2]}, State: {option[3]}, Activity: {option[5]}, Duration: {option[6]}, Budget: {option[7]} Dollars, Rating: {option[8]}\n\n")
+        insert_centered_text(result_text)
     else:
         messagebox.showinfo("Result", "No options available based on your constraints.")
 
-
-# Function to clear input fields and result
 def clear():
     age_entry.delete(0, tk.END)
     age_slider.set(0)  # Reset age slider to zero
@@ -200,13 +198,15 @@ def clear():
     duration_entry.delete(0, tk.END)
     duration_slider.set(0)  # Reset duration slider to zero
     state_entry.delete(0, tk.END)
-    result_label.config(text="")
+    result_text.delete(1.0, tk.END)  # Clear result text
 
-# Function to close the application
 def close():
     root.destroy()
 
-# GUI
+def insert_centered_text(widget):
+    widget.tag_configure("center", justify='center')
+    widget.tag_add("center", "1.0", "end")
+
 root = tk.Tk()
 root.title("NatureQuest Recommendation System")
 
@@ -226,7 +226,7 @@ title_label = ttk.Label(root, text="NatureQuest", style="Custom.TLabel", font=("
 title_label.grid(row=0, column=0, columnspan=4, padx=20, pady=5)
 
 # Sentence below the title
-subtitle_label = ttk.Label(root, text="Enter your details below if you are looking for a new adventure.", font=("Helvetica", 14), background="#d0f0c0")
+subtitle_label = ttk.Label(root, text="Begin your travel journey in the US with NatureQuest by entering your details!", font=("Helvetica", 14), background="#d0f0c0")
 subtitle_label.grid(row=1, column=0, columnspan=4, padx=30, pady=5, sticky="ew")
 
 # Labels and Entry fields
@@ -238,7 +238,7 @@ age_label.grid(row=0, column=0, padx=10, pady=5, sticky="w")
 age_entry = ttk.Entry(labels_entry_frame, font=("Helvetica", 14))
 age_entry.grid(row=0, column=1, padx=10, pady=5, sticky="w")
 age_var = tk.DoubleVar()
-age_slider = Scale(labels_entry_frame, from_=0, to=80, orient=tk.HORIZONTAL, variable=age_var, font=("Helvetica", 12), background="#d0f0c0", length=300, command=update_age_entry)
+age_slider = tk.Scale(labels_entry_frame, from_=0, to=80, orient=tk.HORIZONTAL, variable=age_var, font=("Helvetica", 12), background="#d0f0c0", length=300, command=update_age_entry)
 age_slider.grid(row=0, column=2, padx=10, pady=5, sticky="w")
 
 budget_label = ttk.Label(labels_entry_frame, text="Enter your budget:", style="Custom.TLabel", background="#d0f0c0")
@@ -246,7 +246,7 @@ budget_label.grid(row=1, column=0, padx=10, pady=5, sticky="w")
 budget_entry = ttk.Entry(labels_entry_frame, font=("Helvetica", 14))
 budget_entry.grid(row=1, column=1, padx=10, pady=5, sticky="w")
 budget_var = tk.DoubleVar()
-budget_slider = Scale(labels_entry_frame, from_=0, to=5000, orient=tk.HORIZONTAL, variable=budget_var, font=("Helvetica", 12), background="#d0f0c0", length=300, command=update_budget_entry)
+budget_slider = tk.Scale(labels_entry_frame, from_=0, to=5000, orient=tk.HORIZONTAL, variable=budget_var, font=("Helvetica", 12), background="#d0f0c0", length=300, command=update_budget_entry)
 budget_slider.grid(row=1, column=2, padx=10, pady=5, sticky="w")
 
 duration_label = ttk.Label(labels_entry_frame, text="Enter desired duration (in days):", style="Custom.TLabel", background="#d0f0c0")
@@ -254,7 +254,7 @@ duration_label.grid(row=2, column=0, padx=10, pady=5, sticky="w")
 duration_entry = ttk.Entry(labels_entry_frame, font=("Helvetica", 14))
 duration_entry.grid(row=2, column=1, padx=10, pady=5, sticky="w")
 duration_var = tk.IntVar()
-duration_slider = Scale(labels_entry_frame, from_=0, to=30, orient=tk.HORIZONTAL, variable=duration_var, font=("Helvetica", 12), background="#d0f0c0", length=300, command=update_duration_entry)
+duration_slider = tk.Scale(labels_entry_frame, from_=0, to=30, orient=tk.HORIZONTAL, variable=duration_var, font=("Helvetica", 12), background="#d0f0c0", length=300, command=update_duration_entry)
 duration_slider.grid(row=2, column=2, padx=10, pady=5, sticky="w")
 
 state_label = ttk.Label(labels_entry_frame, text="Enter your preferred state:", style="Custom.TLabel", background="#d0f0c0")
@@ -294,8 +294,13 @@ close_button = ttk.Button(clear_close_frame, text="Close", command=close)
 close_button.grid(row=0, column=1, padx=10)
 
 # Result Text
-result_label = tk.Label(root, text="", font=("Helvetica", 14), background="#d0f0c0")
-result_label.grid(row=5, column=0, columnspan=4, padx=10, pady=5)
+result_frame = tk.Frame(root, background="#d0f0c0")
+result_frame.grid(row=5, column=0, columnspan=4, padx=10, pady=5)
+
+result_text = scrolledtext.ScrolledText(result_frame, wrap=tk.WORD, width=125, height=20, font=("Helvetica", 14), background="white", relief=tk.SUNKEN, bd=2, padx=10, pady=10)
+result_text.grid(row=0, column=0)
+
+insert_centered_text(result_text)
 
 # Configure grid weights
 root.grid_columnconfigure(0, weight=1)
