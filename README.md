@@ -11,3 +11,5 @@ Step 2: Make the python file executable. In Linux, use this command: "chmod +x N
 Step 3: Type "python3 NatureQuest.py" in the terminal while staying in the same folder.
 
 Step 4: To close the GUI, click on the "Close" button.
+
+For more details regarding our project, check out our blog : [https://pragyamittal0.github.io/blog/](url)
