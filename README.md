@@ -13,5 +13,3 @@ Step 3: Type "python3 NatureQuest.py" in the terminal while staying in the same 
 Step 4: To close the GUI, click on the "Close" button.
 
 For more details regarding our project, check out our blog : [https://pragyamittal0.github.io/blog/](url)
-
-To have a visual glimpse, refer to our ppt presentation: [https://docs.google.com/presentation/d/1O2GMueRft6OouLCZpYtsi9__FE6h3wFF/edit?usp=sharing&ouid=105601098606535685412&rtpof=true&sd=true](url)
