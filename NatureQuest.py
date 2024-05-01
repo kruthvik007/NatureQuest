@@ -226,7 +226,7 @@ title_label = ttk.Label(root, text="NatureQuest", style="Custom.TLabel", font=("
 title_label.grid(row=0, column=0, columnspan=4, padx=20, pady=5)
 
 # Sentence below the title
-subtitle_label = ttk.Label(root, text="Begin your travel journey in the US with NatureQuest by entering your details!", font=("Helvetica", 14), background="#d0f0c0")
+subtitle_label = ttk.Label(root, text="Begin your travel journey in the US with Nature Quest by entering your details!", font=("Helvetica", 14), background="#d0f0c0")
 subtitle_label.grid(row=1, column=0, columnspan=4, padx=30, pady=5, sticky="ew")
 
 # Labels and Entry fields
